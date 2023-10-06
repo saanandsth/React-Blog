@@ -1,0 +1,10 @@
+{
+  "editor.fontFamily":  "JetBrains Mono Medium",
+  "editor.fontSize": 14,
+  "editor.mouseWheelZoom": true,
+  "window.zoomLevel": 0,
+  "editor.fontLigatures": true,
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": true,
+  // "editor.lineHeight": 1.3
+}
