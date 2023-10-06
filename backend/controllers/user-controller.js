@@ -2,6 +2,7 @@ import User from '../models/User';
 import bcrypt from 'bcryptjs';
 
 // it is being called in user-router.js
+// Get All users Controller
 export const getAllUsers = async (req, res, next) => {
   let users;
   try {
@@ -16,6 +17,7 @@ export const getAllUsers = async (req, res, next) => {
   return res.status(200).json({ users });
 };
 
+// Sign Up Controller
 export const signup = async (req, res, next) => {
   const { name, email, password } = req.body;
   let existingUser;
@@ -42,4 +44,27 @@ export const signup = async (req, res, next) => {
     return console.log(error);
   }
   return res.status(201).json({ user });
+};
+
+// Login Controller
+export const login = async (req, res, next) => {
+  const { email, password } = req.body;
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ email });
+  } catch (err) {
+    return console.log(err);
+  }
+  if (!existingUser) {
+    return res
+      .status(404)
+      .json({ message: 'Could not find user by this email!' });
+  }
+
+  // we have a function in bcrypt where we can compare the passwords
+  const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
+  if (!isPasswordCorrect) {
+    return res.status(400).json({ message: 'Incorrect Password' });
+  }
+  return res.status(200).json({ message: 'Login Successfull' });
 };
