@@ -15,8 +15,11 @@ const blogSchema = new Schema({
     type: String,
     required: true,
   },
+  // adding relation for blogs with user % user with blogs
   user: {
-    type: String,
+    // providing reference in mongoDB using mongoose
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
     required: true,
   },
 });
