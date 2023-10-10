@@ -94,7 +94,11 @@ export const deleteBlog = async (req, res, next) => {
   const id = req.params.id;
   let blog;
   try {
-    blog = await Blog.findByIdAndRemove(id);
+    // this blog will contain the blog and user's object
+    blog = await Blog.findByIdAndRemove(id).populate('user');
+    // it will remove the blog from the user's array
+    await blog.user.blogs.pull(blog);
+    await blog.user.save();
   } catch (error) {
     return console.log(error);
   }
@@ -103,4 +107,19 @@ export const deleteBlog = async (req, res, next) => {
     return res.status(500).json({ message: 'Unable to delete' });
   }
   return res.status(200).json({ message: 'Successfully deleted' });
+};
+
+// get all the blogs by user id
+export const getByUserId = async (req, res, next) => {
+  const userId = req.params.id;
+  let userBlogs;
+  try {
+    userBlogs = await User.findById(userId).populate('blogs');
+  } catch (error) {
+    return console.log(error);
+  }
+  if (!userBlogs) {
+    return res.status(404).json({ message: 'No Blogs Found' });
+  }
+  return res.status(200).json({ blogs: userBlogs });
 };
