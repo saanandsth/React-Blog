@@ -9,9 +9,11 @@ import {
   Tab,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
   const [value, setValue] = useState();
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
   return (
     <>
       <AppBar
@@ -22,41 +24,49 @@ const Header = () => {
         }}>
         <Toolbar>
           <Typography variant='h4'>Blogs App</Typography>
-          <Box display='flex'>
-            <Tabs
-              sx={{ margin: 1 }}
-              textColor='inherit'
-              value={value}
-              onChange={(e, val) => setValue(val)}>
-              <Tab LinkComponent={Link} to='/blogs' label='All Blogs'></Tab>
-              <Tab LinkComponent={Link} to='/myBlogs' label='My Blogs'></Tab>
-            </Tabs>
-          </Box>
+          {isLoggedIn && (
+            <Box display='flex'>
+              <Tabs
+                sx={{ margin: 1 }}
+                textColor='inherit'
+                value={value}
+                onChange={(e, val) => setValue(val)}>
+                <Tab LinkComponent={Link} to='/blogs' label='All Blogs'></Tab>
+                <Tab LinkComponent={Link} to='/myBlogs' label='My Blogs'></Tab>
+              </Tabs>
+            </Box>
+          )}
           <Box display='flex' marginLeft='auto'>
-            <Button
-              LinkComponent={Link}
-              to='/auth'
-              color='warning'
-              variant='info'
-              sx={{ margin: 1, borderRadius: 10 }}>
-              Login
-            </Button>
-            <Button
-              LinkComponent={Link}
-              to='/auth'
-              color='warning'
-              variant='info'
-              sx={{ margin: 1, borderRadius: 10 }}>
-              Sign Up
-            </Button>
-            <Button
-              LinkComponent={Link}
-              to='/auth'
-              color='warning'
-              variant='info'
-              sx={{ margin: 1, borderRadius: 10 }}>
-              Logout
-            </Button>
+            {!isLoggedIn && (
+              <>
+                <Button
+                  LinkComponent={Link}
+                  to='/auth'
+                  color='warning'
+                  variant='info'
+                  sx={{ margin: 1, borderRadius: 10 }}>
+                  Login
+                </Button>
+                <Button
+                  LinkComponent={Link}
+                  to='/auth'
+                  color='warning'
+                  variant='info'
+                  sx={{ margin: 1, borderRadius: 10 }}>
+                  Sign Up
+                </Button>
+              </>
+            )}
+            {isLoggedIn && (
+              <Button
+                LinkComponent={Link}
+                to='/auth'
+                color='warning'
+                variant='info'
+                sx={{ margin: 1, borderRadius: 10 }}>
+                Logout
+              </Button>
+            )}
           </Box>
         </Toolbar>
       </AppBar>
