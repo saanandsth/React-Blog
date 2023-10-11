@@ -3,9 +3,14 @@ import { Box, TextField, Typography, Button } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { authActions } from './../store/index';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const validationSchema = yup.object({
     name: yup.string('Enter your name'),
@@ -39,9 +44,15 @@ const Auth = () => {
     onSubmit: (values) => {
       console.log('login values', JSON.stringify(values, null, 2));
       if (isSignUp) {
-        sendRequest('signup').then((data) => console.log(data));
+        sendRequest('signup')
+          .then(() => dispatch(authActions.login()))
+          .then(() => navigate('/blogs'))
+          .then((data) => console.log(data));
       } else {
-        sendRequest('login').then((data) => console.log(data));
+        sendRequest('login')
+          .then(() => dispatch(authActions.login()))
+          .then(() => navigate('/blogs'))
+          .then((data) => console.log(data));
       }
       formik.resetForm();
     },

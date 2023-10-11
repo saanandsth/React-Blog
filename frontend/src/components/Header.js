@@ -9,11 +9,13 @@ import {
   Tab,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { authActions } from './../store/index';
 
 const Header = () => {
   const [value, setValue] = useState();
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const dispatch = useDispatch();
   return (
     <>
       <AppBar
@@ -59,6 +61,7 @@ const Header = () => {
             )}
             {isLoggedIn && (
               <Button
+                onClick={() => dispatch(authActions.logout())}
                 LinkComponent={Link}
                 to='/auth'
                 color='warning'
