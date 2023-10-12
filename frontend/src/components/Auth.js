@@ -31,6 +31,7 @@ const Auth = () => {
       })
       .catch((err) => console.log(err));
     const data = await response.data;
+    console.log('data from auth', data);
     return data;
   };
 
@@ -45,11 +46,13 @@ const Auth = () => {
       console.log('login values', JSON.stringify(values, null, 2));
       if (isSignUp) {
         sendRequest('signup')
+          .then((data) => localStorage.setItem('userId', data.user._id))
           .then(() => dispatch(authActions.login()))
           .then(() => navigate('/blogs'))
           .then((data) => console.log(data));
       } else {
         sendRequest('login')
+          .then((data) => localStorage.setItem('userId', data.user._id))
           .then(() => dispatch(authActions.login()))
           .then(() => navigate('/blogs'))
           .then((data) => console.log(data));

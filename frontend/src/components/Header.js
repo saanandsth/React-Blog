@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from './../store/index';
 
 const Header = () => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(0);
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const dispatch = useDispatch();
   return (
