@@ -35,6 +35,10 @@ const Header = () => {
                 onChange={(e, val) => setValue(val)}>
                 <Tab LinkComponent={Link} to='/blogs' label='All Blogs'></Tab>
                 <Tab LinkComponent={Link} to='/myBlogs' label='My Blogs'></Tab>
+                <Tab
+                  LinkComponent={Link}
+                  to='/blogs/add'
+                  label='Add Blog'></Tab>
               </Tabs>
             </Box>
           )}
