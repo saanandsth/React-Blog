@@ -1,7 +1,8 @@
 import React from 'react';
-import { Typography, Box, InputLabel, TextField } from '@mui/material';
+import { Typography, Box, InputLabel, TextField, Button } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import axios from 'axios';
 
 const labelStyles = { mb: 1, mt: 2, fontSize: '20px', fontWeight: 'bold' };
 
@@ -12,6 +13,20 @@ const AddBlog = () => {
     imageUrl: yup.string('Upload image here'),
   });
 
+  const sendRequest = async () => {
+    const response = await axios
+      .post('http://localhost:5000/api/blog/add', {
+        title: formik.values.title,
+        description: formik.values.description,
+        image: formik.values.imageUrl,
+        user: localStorage.getItem('userId'),
+      })
+      .catch((err) => console.log(err));
+    // getting the response
+    const data = await response.data;
+    return data;
+  };
+
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -21,6 +36,8 @@ const AddBlog = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(values);
+      sendRequest().then((data) => console.log(data));
+      formik.resetForm();
     },
   });
 
@@ -36,7 +53,8 @@ const AddBlog = () => {
           margin={3}
           display='flex'
           flexDirection={'column'}
-          width={'50%'}>
+          justifyContent='center'
+          width={'30%'}>
           <Typography
             fontWeight={'bold'}
             padding={3}
@@ -47,7 +65,7 @@ const AddBlog = () => {
           </Typography>
           <InputLabel sx={labelStyles}>Title</InputLabel>
           <TextField
-            placeholder='title'
+            placeholder='Please enter Title'
             name='title'
             id='title'
             value={formik.values.title}
@@ -60,29 +78,40 @@ const AddBlog = () => {
           />
           <InputLabel sx={labelStyles}>Description</InputLabel>
           <TextField
-            margin='normal'
-            variant='outlined'
-            placeholder='desc'
-            name='desc'
-            id='desc'
-            value={formik.values.desc}
+            placeholder='Please write description'
+            name='description'
+            id='description'
+            value={formik.values.description}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.desc && Boolean(formik.errors.desc)}
-            helperText={formik.touched.desc && formik.errors.desc}
+            error={
+              formik.touched.description && Boolean(formik.errors.description)
+            }
+            margin='normal'
+            variant='outlined'
+            helperText={formik.touched.description && formik.errors.description}
           />
           <InputLabel sx={labelStyles}>Image URL</InputLabel>
           <TextField
-            margin='normal'
-            variant='outlined'
-            placeholder='image'
-            name='image'
-            id='image'
+            placeholder='Please upload image here'
+            name='imageUrl'
+            id='imageUrl'
+            value={formik.values.imageUrl}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.image && Boolean(formik.errors.image)}
-            helperText={formik.touched.image && formik.errors.image}
+            error={formik.touched.imageUrl && Boolean(formik.errors.imageUrl)}
+            margin='normal'
+            variant='outlined'
+            helperText={formik.touched.imageUrl && formik.errors.imageUrl}
           />
+          <Button
+            color='primary'
+            sx={{ borderRadius: 4, marginTop: 2 }}
+            variant='contained'
+            size='medium'
+            type='submit'>
+            Submit
+          </Button>
         </Box>
       </form>
     </>

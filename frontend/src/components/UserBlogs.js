@@ -23,11 +23,11 @@ const UserBlogs = () => {
       {blogs &&
         blogs?.map((blog, index) => {
           <Blog
-            title={blog.title}
-            desc={blog.description}
-            image={blog.image}
-            key={blog._id}
-            user={blog.user.name}
+            title={blog?.title}
+            desc={blog?.description}
+            image={blog?.image}
+            key={blog?._id}
+            user={blog?.user.name}
           />;
         })}
     </>
