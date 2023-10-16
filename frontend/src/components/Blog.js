@@ -8,7 +8,8 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import { Divider } from '@mui/material';
 
-const Blog = ({ title, desc, image, user }) => {
+const Blog = ({ title, desc, image, user, isUser }) => {
+  console.log(title, isUser);
   return (
     <>
       <Card
