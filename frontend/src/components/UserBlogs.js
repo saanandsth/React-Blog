@@ -4,7 +4,7 @@ import Blog from './Blog';
 import { Stack } from '@mui/system';
 
 const UserBlogs = () => {
-  const [blogs, setBlogs] = useState();
+  const [user, setUser] = useState();
   const id = localStorage.getItem('userId');
   const sendRequest = async () => {
     const response = await axios
@@ -15,22 +15,24 @@ const UserBlogs = () => {
     return data;
   };
   useEffect(() => {
-    sendRequest().then((data) => setBlogs(data?.blogs?.blogs));
+    sendRequest().then((data) => setUser(data?.user));
   }, []);
 
-  console.log('data from userBlogs', blogs);
+  console.log('data from userBlogs', user);
 
   return (
     <div>
       <Stack direction='row' spacing={2} sx={{ margin: '20px' }}>
-        {blogs &&
-          blogs?.map((blog, index) => (
+        {user &&
+          user.blogs &&
+          user.blogs?.map((blog, index) => (
             <Blog
+              id={blog._id}
               title={blog?.title}
               desc={blog?.description}
               image={blog?.image}
-              key={blog?._id}
-              user={blog?.user.name}
+              key={index}
+              user={user.name}
             />
           ))}
       </Stack>

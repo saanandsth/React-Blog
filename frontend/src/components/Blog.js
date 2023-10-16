@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
+import { Divider } from '@mui/material';
 
 const Blog = ({ title, desc, image, user }) => {
   return (
@@ -24,15 +25,16 @@ const Blog = ({ title, desc, image, user }) => {
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label='recipe'>
-              {user}
+              {user ? user.charAt(0) : ''}
             </Avatar>
           }
           title={title}
-          // subheader='September 14, 2016'
         />
         <CardMedia component='img' height='194' image={image} alt='img' />
         <CardContent>
           <Typography variant='body2' color='text.secondary'>
+            <b> {user}</b>
+            <Divider orientation='vertical' />
             {desc}
           </Typography>
         </CardContent>
