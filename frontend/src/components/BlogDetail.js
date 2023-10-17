@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Typography, Box, InputLabel, TextField, Button } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -8,6 +8,7 @@ import * as yup from 'yup';
 const labelStyles = { mb: 1, mt: 2, fontSize: '20px', fontWeight: 'bold' };
 
 const BlogDetail = () => {
+  const naviage = useNavigate();
   const [blog, setBlog] = useState();
   const id = useParams().id;
   console.log('id', id);
@@ -26,6 +27,18 @@ const BlogDetail = () => {
     return data;
   };
 
+  const sendRequest = async () => {
+    const res = await axios
+      .put(`http://localhost:5001/api/blog/update/${id}`, {
+        title: formik.values.title,
+        description: formik.values.description,
+      })
+      .catch((err) => console.log(err));
+
+    const data = await res.data;
+    return data;
+  };
+
   useEffect(() => {
     fetchDetails().then((data) => setBlog(data.blog));
   }, [id]);
@@ -35,14 +48,17 @@ const BlogDetail = () => {
   const formik = useFormik({
     initialValues: {
       title: blog?.title,
-      description: blog.description,
+      description: blog?.description,
       imageUrl: blog?.image,
     },
     validationSchema: validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
       console.log(values);
-      formik.resetForm();
+      sendRequest()
+        .then((data) => console.log(data))
+        .then(() => naviage('/myBlogs/'));
+      // formik.resetForm();
     },
   });
 
@@ -98,6 +114,7 @@ const BlogDetail = () => {
           />
           <InputLabel sx={labelStyles}>Image URL</InputLabel>
           <TextField
+            disabled
             placeholder='Please upload image here'
             name='imageUrl'
             id='imageUrl'
