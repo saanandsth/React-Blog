@@ -1,7 +1,101 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const BlogDetail = () => {
-  return <div>BlogDetail</div>;
+  const [blog, setBlog] = useState();
+  const id = useParams().id;
+  console.log('id', id);
+
+  const fetchDetails = async () => {
+    const res = await axios
+      .get(`http://localhost:5001/api/blog/${id}`)
+      .catch((err) => console.log(err));
+    const data = await res.data;
+    return data;
+  };
+
+  useEffect(() => {
+    fetchDetails().then((data) => setBlog(data.blog));
+  }, [id]);
+
+  console.log(blog);
+
+  return (
+    <>
+      <form onSubmit={formik.handleSubmit}>
+        <Box
+          // border={0.5}
+          borderColor='grey'
+          borderRadius={10}
+          boxShadow='10px 10px 20px #ccc'
+          padding={3}
+          margin={3}
+          display='flex'
+          flexDirection={'column'}
+          justifyContent='center'
+          width={'30%'}>
+          <Typography
+            fontWeight={'bold'}
+            padding={3}
+            color='grey'
+            variant='h3'
+            textAlign={'center'}>
+            Post Your Blog
+          </Typography>
+          <InputLabel sx={labelStyles}>Title</InputLabel>
+          <TextField
+            placeholder='Please enter Title'
+            name='title'
+            id='title'
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.name && Boolean(formik.errors.title)}
+            margin='normal'
+            variant='outlined'
+            helperText={formik.touched.title && formik.errors.title}
+          />
+          <InputLabel sx={labelStyles}>Description</InputLabel>
+          <TextField
+            placeholder='Please write description'
+            name='description'
+            id='description'
+            value={formik.values.description}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.description && Boolean(formik.errors.description)
+            }
+            margin='normal'
+            variant='outlined'
+            helperText={formik.touched.description && formik.errors.description}
+          />
+          <InputLabel sx={labelStyles}>Image URL</InputLabel>
+          <TextField
+            placeholder='Please upload image here'
+            name='imageUrl'
+            id='imageUrl'
+            value={formik.values.imageUrl}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.imageUrl && Boolean(formik.errors.imageUrl)}
+            margin='normal'
+            variant='outlined'
+            helperText={formik.touched.imageUrl && formik.errors.imageUrl}
+          />
+          <Button
+            color='primary'
+            sx={{ borderRadius: 4, marginTop: 2 }}
+            variant='contained'
+            size='medium'
+            type='submit'>
+            Submit
+          </Button>
+        </Box>
+      </form>
+    </>
+  );
 };
 
 export default BlogDetail;

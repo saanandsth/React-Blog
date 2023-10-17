@@ -11,7 +11,7 @@ const Blogs = () => {
 
   const sendRequest = async () => {
     const res = await axios
-      .get('http://localhost:5000/api/blog')
+      .get('http://localhost:5001/api/blog')
       .catch((err) => console.log(err));
     const data = await res.data;
     console.log('data', data);
@@ -24,6 +24,7 @@ const Blogs = () => {
         {blogs &&
           blogs?.map((blog, index) => (
             <Blog
+              id={blog._id}
               isUser={localStorage.getItem('userId') === blog?.user._id}
               title={blog?.title}
               desc={blog?.description}

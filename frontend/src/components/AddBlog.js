@@ -15,7 +15,7 @@ const AddBlog = () => {
 
   const sendRequest = async () => {
     const response = await axios
-      .post('http://localhost:5000/api/blog/add', {
+      .post('http://localhost:5001/api/blog/add', {
         title: formik.values.title,
         description: formik.values.description,
         image: formik.values.imageUrl,

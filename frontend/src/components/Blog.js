@@ -1,15 +1,28 @@
+import {
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  IconButton,
+  Typography,
+  Divider,
+} from '@mui/material';
 import React from 'react';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { red } from '@mui/material/colors';
-import { Divider } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const Blog = ({ title, desc, image, user, isUser }) => {
+const Blog = ({ title, desc, image, user, isUser, id }) => {
   console.log(title, isUser);
+  const navigate = useNavigate();
+
+  const handleEdit = () => {
+    navigate(`/myBlogs/${id}`);
+  };
+  const handleDelete = () => {};
   return (
     <>
       <Card
@@ -23,9 +36,19 @@ const Blog = ({ title, desc, image, user, isUser }) => {
             boxShadow: '10px 10px 20px #ccc',
           },
         }}>
+        {isUser && (
+          <Box display='flex'>
+            <IconButton sx={{ marginLeft: 'auto' }} onClick={handleEdit}>
+              <ModeEditIcon />
+            </IconButton>
+            <IconButton onClick={handleDelete}>
+              <DeleteIcon />
+            </IconButton>
+          </Box>
+        )}
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label='recipe'>
+            <Avatar sx={{ bgcolor: red }} aria-label='recipe'>
               {user ? user.charAt(0) : ''}
             </Avatar>
           }
