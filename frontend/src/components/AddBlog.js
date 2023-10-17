@@ -3,10 +3,12 @@ import { Typography, Box, InputLabel, TextField, Button } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const labelStyles = { mb: 1, mt: 2, fontSize: '20px', fontWeight: 'bold' };
 
 const AddBlog = () => {
+  const navigate = useNavigate();
   const validationSchema = yup.object({
     title: yup.string('Enter the title'),
     description: yup.string('Enter the description'),
@@ -38,6 +40,7 @@ const AddBlog = () => {
       console.log(values);
       sendRequest().then((data) => console.log(data));
       formik.resetForm();
+      navigate('/myBlogs/');
     },
   });
 

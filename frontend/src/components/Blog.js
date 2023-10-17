@@ -14,6 +14,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { red } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Blog = ({ title, desc, image, user, isUser, id }) => {
   console.log(title, isUser);
@@ -22,7 +23,17 @@ const Blog = ({ title, desc, image, user, isUser, id }) => {
   const handleEdit = () => {
     navigate(`/myBlogs/${id}`);
   };
-  const handleDelete = () => {};
+
+  const deleteRequest = async () => {
+    const res = await axios
+      .delete(`http://localhost:5001/api/blog/${id}`)
+      .catch((err) => console.log(err));
+    const data = await res.data;
+    return data;
+  };
+  const handleDelete = () => {
+    deleteRequest().then((data) => console.log(data));
+  };
   return (
     <>
       <Card
