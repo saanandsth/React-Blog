@@ -1,11 +1,22 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Typography, Box, InputLabel, TextField, Button } from '@mui/material';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+
+const labelStyles = { mb: 1, mt: 2, fontSize: '20px', fontWeight: 'bold' };
 
 const BlogDetail = () => {
   const [blog, setBlog] = useState();
   const id = useParams().id;
   console.log('id', id);
+
+  const validationSchema = yup.object({
+    title: yup.string('Enter the title'),
+    description: yup.string('Enter the description'),
+    imageUrl: yup.string('Upload image here'),
+  });
 
   const fetchDetails = async () => {
     const res = await axios
@@ -20,6 +31,20 @@ const BlogDetail = () => {
   }, [id]);
 
   console.log(blog);
+
+  const formik = useFormik({
+    initialValues: {
+      title: blog?.title,
+      description: blog.description,
+      imageUrl: blog?.image,
+    },
+    validationSchema: validationSchema,
+    enableReinitialize: true,
+    onSubmit: (values) => {
+      console.log(values);
+      formik.resetForm();
+    },
+  });
 
   return (
     <>
