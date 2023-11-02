@@ -15,6 +15,10 @@ const blogSchema = new Schema({
     type: String,
     required: true,
   },
+  // comments: {
+  //   type: true,
+  //   required: false,
+  // },
   // adding relation for blogs with user % user with blogs
   user: {
     // providing reference in mongoDB using mongoose
@@ -25,3 +29,5 @@ const blogSchema = new Schema({
 });
 
 export default mongoose.model('Blog', blogSchema);
+
+// need to implement comments -
