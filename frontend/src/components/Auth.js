@@ -30,7 +30,7 @@ const Auth = () => {
         password: formik.values.password,
       })
       .catch((err) => console.log(err));
-    const data = await response.data;
+    const data = await response?.data;
     console.log('data from auth', data);
     return data;
   };

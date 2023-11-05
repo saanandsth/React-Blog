@@ -24,7 +24,7 @@ export const signup = async (req, res, next) => {
   try {
     existingUser = await User.findOne({ email });
   } catch (err) {
-    console.log(err);
+    return console.log(err);
   }
 
   if (existingUser) {
