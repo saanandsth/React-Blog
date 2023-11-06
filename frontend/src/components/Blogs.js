@@ -11,7 +11,7 @@ const Blogs = () => {
 
   const sendRequest = async () => {
     const res = await axios
-      .get('http://localhost:5001/api/blog')
+      .get('https://backend-81y3.onrender.com/api/blog')
       .catch((err) => console.log(err));
     const data = await res.data;
     console.log('data', data);

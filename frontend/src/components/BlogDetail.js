@@ -21,7 +21,7 @@ const BlogDetail = () => {
 
   const fetchDetails = async () => {
     const res = await axios
-      .get(`http://localhost:5001/api/blog/${id}`)
+      .get(`https://backend-81y3.onrender.com/api/blog/${id}`)
       .catch((err) => console.log(err));
     const data = await res.data;
     return data;
@@ -29,7 +29,7 @@ const BlogDetail = () => {
 
   const sendRequest = async () => {
     const res = await axios
-      .put(`http://localhost:5001/api/blog/update/${id}`, {
+      .put(`https://backend-81y3.onrender.com/api/blog/update/${id}`, {
         title: formik.values.title,
         description: formik.values.description,
       })

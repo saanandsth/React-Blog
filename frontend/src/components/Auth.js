@@ -24,7 +24,7 @@ const Auth = () => {
   const sendRequest = async (type = 'login') => {
     console.log(type);
     const response = await axios
-      .post(`http://localhost:5001/api/user/${type}`, {
+      .post(`https://backend-81y3.onrender.com/api/user/${type}`, {
         name: formik.values.name,
         email: formik.values.email,
         password: formik.values.password,

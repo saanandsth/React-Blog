@@ -17,7 +17,7 @@ const AddBlog = () => {
 
   const sendRequest = async () => {
     const response = await axios
-      .post('http://localhost:5001/api/blog/add', {
+      .post('https://backend-81y3.onrender.com/api/blog/add', {
         title: formik.values.title,
         description: formik.values.description,
         image: formik.values.imageUrl,
